@@ -73,8 +73,7 @@ public class Assignment{
                         default: continue;
                     }
                     break;
-                case OPEN_NEW_ACCOUNT:
-                    
+                case OPEN_NEW_ACCOUNT:{
                     String id = String.format("SDB-%05d", (accountDetails.length + 1));
                     System.out.printf("Account ID: %s\n", id);
 
@@ -103,10 +102,45 @@ public class Assignment{
 
                     }while(!valid);
                     //Initial Deposit Validation
+                    initialDepositValidation:
+                    do{
+                        valid = true;
+                        System.out.print("Initial Deposit: ");
+                        initialDeposit = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        if(!(initialDeposit >= 5000)){
+                            System.out.printf(ERROR_MSG, "Insufficient amount to open new account!");
+                            valid = false;
+                            continue initialDepositValidation;
+                        }
+
+                    }while (!valid); 
+
+                    String[][] newAccountDetails = new String[accountDetails.length +1][3];
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        newAccountDetails[i] = accountDetails[i]; 
+                    }
+                    newAccountDetails[newAccountDetails.length-1][0] = id;
+                    newAccountDetails[newAccountDetails.length-1][1] = name;
+                    newAccountDetails[newAccountDetails.length-1][2] = initialDeposit + "";
+
+                    accountDetails = newAccountDetails;
+
+                    System.out.printf(SUCCESS_MSG, String.format("%s:%s has cteated succesfully.", id, name));
+                    System.out.print("Do you want to add another account (Y/n)? ");
+                    if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
+                    else screen = DASHBOARD;
+                    break;
+                }
+                case DEPOSIT_MONEY:{
+                    //Account number Validation.
+                }
+
+                
+
+                        
                     
-                                    
-                    
-                           
                     
                     
             }
