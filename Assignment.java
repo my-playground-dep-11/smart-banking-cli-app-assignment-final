@@ -137,10 +137,48 @@ public class Assignment{
                     //Account number Validation.
                     accountNumberValidation("Enter Account Number: ");
                     if(!valid) continue;
+                    currentBalance();
+                    //Deposit amount Validation
+                    Double amontOfDeposition;
 
-                    
+                    depositAmountValidation:
+                    do{
+                        valid = true;
+                        System.out.print("Deposit Amount: ");
+                        amontOfDeposition = scanner.nextDouble();
+                        scanner.nextLine();
 
+                        if(amontOfDeposition < 500){
+                            System.out.printf(ERROR_MSG, "Insufficient Amount!");
+                            valid = false;
+                        }
+                        if(valid == false){
+                            System.out.printf(TRY_AGAIN_MSG);
+                            if(scanner.nextLine().toUpperCase().strip().equals("Y")) {
+                                continue depositAmountValidation;
+                        }else{
+                            screen = DASHBOARD;
+                            continue mainLoop;
+                        }
+                    }
+
+                    }while(!valid);
+
+                    Double newBalance = Double.valueOf(amount) + amontOfDeposition;
+                    System.out.printf("New Balance: %,.2f\n", newBalance);
+
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(accountNo)){
+                            accountDetails[i][2] = newBalance + "";
+                        }    
+                    }
+                    System.out.print("Do you want to continue depositing (Y/n)?");
+                    if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
+                    else screen = DASHBOARD;
+                    break;
                 }
+
+                
 
                 
 
@@ -199,6 +237,18 @@ public class Assignment{
 
         }while(!valid);
 
+    }
+
+    public static void currentBalance(){
+        for (int i = 0; i < accountDetails.length; i++) {
+            if(accountDetails[i][0].equals(accountNo)){
+                amount = accountDetails[i][2];
+                nameOfAccount = accountDetails[i][1];
+                System.out.printf("%sCurrent Balance: %s%,.2f%s", COLOR_GREEN_BOLD,"Rs. ", Double.valueOf(amount),RESET);
+                break;
+            }
+            
+        }
     }
 
     
