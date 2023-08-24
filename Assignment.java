@@ -135,7 +135,11 @@ public class Assignment{
                 }
                 case DEPOSIT_MONEY:{
                     //Account number Validation.
+                    accountNumberValidation("Enter Account Number: ");
+                    if(!valid) continue;
+
                     
+
                 }
 
                 
@@ -147,6 +151,53 @@ public class Assignment{
             }
         }while (true); 
 
+
+    }
+    public static void accountNumberValidation(String accountNumberInput){
+        do{
+            valid = true;
+            System.out.print(accountNumberInput);
+            accountNo = scanner.nextLine().toUpperCase().strip();
+
+            if(accountNo.isBlank()){
+                System.out.printf(ERROR_MSG, "Account number cannot be empty!");
+                valid = false;
+            }else if(!(accountNo.startsWith("SDB-") && accountNo.length() == 9)){
+                System.out.printf(ERROR_MSG, "Invalid account Number!");
+                valid = false;
+            }else{
+                String number = accountNo.substring(4);
+                for (int i = 0; i < number.length(); i++) {
+                    if(!(Character.isDigit(number.charAt(i)))){
+                        System.out.printf(ERROR_MSG, "Invalid account Number!");
+                        valid = false;
+                        break;
+                    }
+                    
+                }
+                boolean exists = false;
+                for (int i = 0; i < accountDetails.length; i++) {
+                    if(accountDetails[i][0].equals(accountNo)){
+                        exists = true;
+                        break;
+                    }
+                    
+                }
+                if(!exists){
+                    valid = false;
+                    System.out.printf(ERROR_MSG, "Account ID not found!");
+                }
+            }
+            if(!valid){
+                System.out.printf(TRY_AGAIN_MSG);
+                if(scanner.nextLine().strip().toUpperCase().equals("Y")){
+                    continue;
+                }
+                screen = DASHBOARD;
+                return;
+            }
+
+        }while(!valid);
 
     }
 
