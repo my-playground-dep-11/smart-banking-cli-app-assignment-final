@@ -43,6 +43,35 @@ public class Assignment{
                 final String APP_TITLE = String.format("%s%s%s",COLOR_BLUE_BOLD, screen, RESET);
                 System.out.println(CLEAR);
                 System.out.println(APP_TITLE);
+
+                switch(screen){
+                    case DASHBOARD: 
+                        System.out.println("[1]. Open New Account");
+                        System.out.println("[2]. Deposit Money");
+                        System.out.println("[3]. Withdraw Money");
+                        System.out.println("[4]. Transfer Money");
+                        System.out.println("[5]. Check Account Balance");
+                        System.out.println("[6]. Drop Existing Account");
+                        System.out.println("[7]. Exit\n");
+                        System.out.print("Enter an option to continue > ");
+                        int option = scanner.nextInt();
+                        scanner.nextLine();
+
+                        switch (option){
+                            case 1: screen = OPEN_NEW_ACCOUNT; break;
+                            case 2: screen = DEPOSIT_MONEY; break;
+                            case 3: screen = WITHDRAW_MONEY; break;
+                            case 4: screen = TRANSFER_MONEY; break;
+                            case 5: screen = CHECK_ACCOUNT_BALANCE; break;
+                            case 6: screen = DROP_EXISTING_ACCOUNT; break;
+                            case 7: System.out.println(CLEAR); System.exit(0);
+                            default: continue;
+                        }
+                        break;
+                    
+                    case OPEN_NEW_ACCOUNT:
+                    
+                }
             
 
             }while(valid);
