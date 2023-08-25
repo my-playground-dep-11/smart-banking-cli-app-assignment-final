@@ -219,7 +219,45 @@ public class Assignment{
                     else screen = DASHBOARD;
                     break;
                 }
-               
+                case DROP_EXISTING_ACCOUNT:{
+                    int index = 0;
+                    accountNumberValidation("Enter Account ID: ");
+                    if(!valid) continue;
+
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(accountNo)){
+                            amount = accountDetails[i][2];
+                            nameOfAccount = accountDetails[i][1];
+                            accountID = accountDetails[i][0];
+                            index = i;
+                            System.out.printf("%sName: %s%s\n", COLOR_GREEN_BOLD, nameOfAccount, RESET);
+                            System.out.printf("%sBalance: %s%,.2f%s", COLOR_GREEN_BOLD, "Rs. ", amount, RESET);
+                            break;
+                        }
+                        
+                    }
+                    System.out.println();
+                    System.out.print("Do you sure want to drop this Account (Y/n)? ");
+                    if(!scanner.nextLine().toUpperCase().strip().equals("Y")) {
+                        screen = DASHBOARD;
+                        continue mainLoop;
+                    }
+                    String[][] newAccountsDetails = new String[accountDetails.length - 1][3];
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(i < index) newAccountsDetails[i] = accountDetails[i];
+                        else if(i == index) continue;
+                        else newAccountsDetails[i - 1] = accountDetails[i];
+                        
+                    }
+                    accountDetails = newAccountsDetails;
+
+                    System.out.printf(SUCCESS_MSG, String.format("%s%s : %s has been dropped successfully%s", COLOR_YELLOW_BOLD, accountID, nameOfAccount, RESET));
+                    System.out.print("Do you want to countinue deleting (Y/n)?");
+                    if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
+                    else screen = DASHBOARD;
+                    break;
+                }
+                
             }
         }while (true); 
     }
