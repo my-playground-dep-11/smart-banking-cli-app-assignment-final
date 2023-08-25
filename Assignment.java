@@ -198,7 +198,28 @@ public class Assignment{
                     break;
                 }
 
-                
+                case CHECK_ACCOUNT_BALANCE:{
+                    accountNumberValidation("Enter Account ID: ");
+                    if(!valid) continue;
+
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(accountNo)){
+                            amount = accountDetails[i][2];
+                            nameOfAccount = accountDetails[i][1];
+                            System.out.printf("%sName: %s%s", COLOR_GREEN_BOLD, nameOfAccount, RESET);
+                            System.out.printf("%sCurrent Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", amount, RESET);
+                            System.out.printf("%sAvailable Balance to Withdraw: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", (Double.valueOf(amount)-500), RESET);
+                            break;
+                        }
+                        
+                    }
+                    System.out.println();
+                    System.out.print("Do you want to countinue checking (Y/n)?");
+                    if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
+                    else screen = DASHBOARD;
+                    break;
+                }
+               
             }
         }while (true); 
     }
