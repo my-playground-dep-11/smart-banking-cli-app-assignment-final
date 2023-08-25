@@ -26,7 +26,7 @@ public class Assignment{
     static String[][] accountDetails = new String[0][];
     static String accountID;    
     static boolean valid;
-    static Double WithdrawAmount;
+    static Double withdrawAmount;
     static String accountNo;
     static String amount;
     static String nameOfAccount;
@@ -36,7 +36,7 @@ public class Assignment{
     static String customerNameOfToAccount;
     static String fromAccountID;
     static String toAccountID;
-    static String transferAmount;
+    static Double transferAmount;
 
     private final static Scanner scanner = new Scanner(System.in);
     
@@ -177,19 +177,30 @@ public class Assignment{
                     else screen = DASHBOARD;
                     break;
                 }
+                case WITHDRAW_MONEY:{
+                    accountNumberValidation("Enter account Number: ");
+                    if(!valid) continue;
+
+                    currentBalance();
+                    withdrawAmountValidation("Withdraw Amount");
+                    if(!valid) continue;
+
+                    Double newAccountBalance = Double.valueOf(amount) - withdrawAmount;
+                    System.out.printf("New Account Balance: %,.2f\n", newAccountBalance);
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(accountNo)){
+                            accountDetails[i][2] = newAccountBalance + "";
+                        }                       
+                    }
+                    System.out.print("Do you want to withdraw again (Y/n)?");
+                    if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
+                    else screen = DASHBOARD;
+                    break;
+                }
 
                 
-
-                
-
-                        
-                    
-                    
-                    
             }
         }while (true); 
-
-
     }
     public static void accountNumberValidation(String accountNumberInput){
         do{
@@ -250,6 +261,31 @@ public class Assignment{
             
         }
     }
+    public static void withdrawAmountValidation(String input){
+        do{
+            valid = true;
+            System.out.print(input);
+            withdrawAmount = scanner.nextDouble();
+            scanner.nextLine();
 
+            if(withdrawAmount < 100){
+                System.out.printf(ERROR_MSG, "Insufficient Amount!");
+                valid = false;
+            }
+            if((Double.valueOf(amount) - withdrawAmount) < 500){
+                System.out.printf(ERROR_MSG, "Insufficient Account Balance, There should be at least Rs. 500.00 balance in your account!");
+                valid = false;
+            }if(valid == false){
+                System.out.print(TRY_AGAIN_MSG);
+                if(scanner.nextLine().toUpperCase().strip().equals("Y")){
+                    continue;
+                }else {
+                    screen = DASHBOARD;
+                    return;
+                }
+            }
+
+        }while(!valid);
+    }
     
 }
