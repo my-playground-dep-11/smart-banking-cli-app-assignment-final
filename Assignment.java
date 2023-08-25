@@ -18,7 +18,7 @@ public class Assignment{
     final static String DROP_EXISTING_ACCOUNT = "❌"+" Drop Existing Account";
     final static String EXIT = "👋"+" Exit";        
 
-    final static String TRY_AGAIN_MSG = String.format("%s%s%s", COLOR_YELLOW_BOLD, "Do you want to try again?", RESET);
+    final static String TRY_AGAIN_MSG = String.format("%s%s%s", COLOR_YELLOW_BOLD, "Do you want to try again? ", RESET);
     final static String ERROR_MSG = String.format("%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
     final static String SUCCESS_MSG = String.format("%s%s%s\n", COLOR_GREEN_BOLD, "%s", RESET);
 
@@ -126,8 +126,8 @@ public class Assignment{
                     newAccountDetails[newAccountDetails.length-1][2] = initialDeposit + "";
 
                     accountDetails = newAccountDetails;
-
-                    System.out.printf(SUCCESS_MSG, String.format("%s:%s has cteated succesfully.", id, name));
+                    System.out.println();
+                    System.out.printf(SUCCESS_MSG, String.format("%s : %s has cteated succesfully.", id, name));
                     System.out.print("Do you want to add another account (Y/n)? ");
                     if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
                     else screen = DASHBOARD;
@@ -140,6 +140,7 @@ public class Assignment{
                     currentBalance();
                     //Deposit amount Validation
                     Double amontOfDeposition;
+                    System.out.println();
 
                     depositAmountValidation:
                     do{
@@ -165,14 +166,15 @@ public class Assignment{
                     }while(!valid);
 
                     Double newBalance = Double.valueOf(amount) + amontOfDeposition;
-                    System.out.printf("New Balance: %,.2f\n", newBalance);
+                    System.out.printf("%sNew Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", newBalance, RESET);
 
                     for (int i = 0; i < accountDetails.length; i++) {
                         if(accountDetails[i][0].equals(accountNo)){
                             accountDetails[i][2] = newBalance + "";
                         }    
                     }
-                    System.out.print("Do you want to continue depositing (Y/n)?");
+                    System.out.println();
+                    System.out.print("Do you want to continue depositing (Y/n)? ");
                     if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
                     else screen = DASHBOARD;
                     break;
@@ -182,17 +184,19 @@ public class Assignment{
                     if(!valid) continue;
 
                     currentBalance();
-                    withdrawAmountValidation("Withdraw Amount");
+                    System.out.println();
+                    withdrawAmountValidation("Withdraw Amount: ");
                     if(!valid) continue;
 
                     Double newAccountBalance = Double.valueOf(amount) - withdrawAmount;
-                    System.out.printf("New Account Balance: %,.2f\n", newAccountBalance);
+                    System.out.printf("%sNew Account Balance: %s%,.2f%s\n",COLOR_GREEN_BOLD, "Rs. ", newAccountBalance, RESET);
                     for (int i = 0; i < accountDetails.length; i++) {
                         if(accountDetails[i][0].equals(accountNo)){
                             accountDetails[i][2] = newAccountBalance + "";
                         }                       
                     }
-                    System.out.print("Do you want to withdraw again (Y/n)?");
+                    System.out.println();
+                    System.out.print("Do you want to withdraw again (Y/n)? ");
                     if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
                     else screen = DASHBOARD;
                     break;
@@ -206,15 +210,15 @@ public class Assignment{
                         if(accountDetails[i][0].equals(accountNo)){
                             amount = accountDetails[i][2];
                             nameOfAccount = accountDetails[i][1];
-                            System.out.printf("%sName: %s%s", COLOR_GREEN_BOLD, nameOfAccount, RESET);
-                            System.out.printf("%sCurrent Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", amount, RESET);
+                            System.out.printf("%sName: %s%s\n", COLOR_GREEN_BOLD, nameOfAccount, RESET);
+                            System.out.printf("%sCurrent Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", Double.valueOf(amount), RESET);
                             System.out.printf("%sAvailable Balance to Withdraw: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", (Double.valueOf(amount)-500), RESET);
                             break;
                         }
                         
                     }
                     System.out.println();
-                    System.out.print("Do you want to countinue checking (Y/n)?");
+                    System.out.print("Do you want to countinue checking (Y/n)? ");
                     if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
                     else screen = DASHBOARD;
                     break;
@@ -231,7 +235,7 @@ public class Assignment{
                             accountID = accountDetails[i][0];
                             index = i;
                             System.out.printf("%sName: %s%s\n", COLOR_GREEN_BOLD, nameOfAccount, RESET);
-                            System.out.printf("%sBalance: %s%,.2f%s", COLOR_GREEN_BOLD, "Rs. ", amount, RESET);
+                            System.out.printf("%sBalance: %s%,.2f%s", COLOR_GREEN_BOLD, "Rs. ", Double.valueOf(amount), RESET);
                             break;
                         }
                         
@@ -250,9 +254,9 @@ public class Assignment{
                         
                     }
                     accountDetails = newAccountsDetails;
-
+                    System.out.println();
                     System.out.printf(SUCCESS_MSG, String.format("%s%s : %s has been dropped successfully%s", COLOR_YELLOW_BOLD, accountID, nameOfAccount, RESET));
-                    System.out.print("Do you want to countinue deleting (Y/n)?");
+                    System.out.print("Do you want to countinue deleting (Y/n)? ");
                     if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
                     else screen = DASHBOARD;
                     break;
@@ -268,7 +272,7 @@ public class Assignment{
                             customerNameOfFromAccount = accountDetails[i][1];
 
                             System.out.printf("%sFrom Account Name: %s %s\n", COLOR_GREEN_BOLD,customerNameOfFromAccount, RESET);
-                            System.out.printf("%sFrom Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", fromAccountAmount, RESET);
+                            System.out.printf("%sFrom Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", Double.valueOf(fromAccountAmount), RESET);
                             break;
                         }
                         
@@ -285,7 +289,7 @@ public class Assignment{
                             customerNameOfToAccount = accountDetails[i][1];
 
                             System.out.printf("%sTo Account Name: %s %s\n", COLOR_GREEN_BOLD,customerNameOfToAccount, RESET);
-                            System.out.printf("%sTo Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", toAccountAmount, RESET);
+                            System.out.printf("%sTo Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", Double.valueOf(toAccountAmount), RESET);
                             break;
                         }
                         
@@ -293,6 +297,7 @@ public class Assignment{
                     validationOfTransferAmmount:
                     do{
                         valid = true;
+                        System.out.println();
                         System.out.print("Enter amount to transfer: ");
                         transferAmount = scanner.nextDouble();
                         scanner.nextLine();
@@ -313,12 +318,11 @@ public class Assignment{
                                 screen = DASHBOARD;
                                 continue mainLoop;
                             }
-
                         }
-
                     }while(!valid);
 
                     Double fromAccountNewBalance = Double.valueOf(fromAccountAmount) - (transferAmount * 1.2);
+                    System.out.println();
                     System.out.printf("%sNew from Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", fromAccountNewBalance, RESET);
 
                     Double toAccountNewBalance = Double.valueOf(toAccountAmount) + (transferAmount);
@@ -333,7 +337,8 @@ public class Assignment{
                         }
                         
                     }
-                    System.out.print("Do you want to continue transfering (Y/n)?");
+                    System.out.println();
+                    System.out.print("Do you want to continue transfering (Y/n)? ");
                     if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
                     else screen = DASHBOARD;
                     break;
