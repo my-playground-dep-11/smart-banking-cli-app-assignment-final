@@ -257,7 +257,91 @@ public class Assignment{
                     else screen = DASHBOARD;
                     break;
                 }
-                
+                case TRANSFER_MONEY:{
+                    accountNumberValidation("Enter from Account ID: ");
+                    if(!valid) continue;
+
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(accountNo)){
+                            fromAccountAmount = accountDetails[i][2];
+                            fromAccountID = accountDetails[i][0];
+                            customerNameOfFromAccount = accountDetails[i][1];
+
+                            System.out.printf("%sFrom Account Name: %s %s\n", COLOR_GREEN_BOLD,customerNameOfFromAccount, RESET);
+                            System.out.printf("%sFrom Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", fromAccountAmount, RESET);
+                            break;
+                        }
+                        
+                    }
+                    System.out.println();
+
+                    accountNumberValidation("Enter to Account ID: ");
+                    if(!valid) continue;
+
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(accountNo)){
+                            toAccountAmount = accountDetails[i][2];
+                            toAccountID = accountDetails[i][0];
+                            customerNameOfToAccount = accountDetails[i][1];
+
+                            System.out.printf("%sTo Account Name: %s %s\n", COLOR_GREEN_BOLD,customerNameOfToAccount, RESET);
+                            System.out.printf("%sTo Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", toAccountAmount, RESET);
+                            break;
+                        }
+                        
+                    }
+                    validationOfTransferAmmount:
+                    do{
+                        valid = true;
+                        System.out.print("Enter amount to transfer: ");
+                        transferAmount = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        if(transferAmount < 100){
+                            System.out.printf(ERROR_MSG, "Insufficient Amount!");
+                            valid = false;
+                        }
+                        if((Double.valueOf(fromAccountAmount) - transferAmount) < 500){
+                            System.out.printf(ERROR_MSG, "Insufficient amount to tranfer money, there should be at least Rs. 500 account balance!");
+                            valid = false;
+                        }
+                        if(valid == false){
+                            System.out.print(TRY_AGAIN_MSG);
+                            if(scanner.nextLine().toUpperCase().strip().equals("Y")){
+                                continue validationOfTransferAmmount;
+                            }else{
+                                screen = DASHBOARD;
+                                continue mainLoop;
+                            }
+
+                        }
+
+                    }while(!valid);
+
+                    Double fromAccountNewBalance = Double.valueOf(fromAccountAmount) - (transferAmount * 1.2);
+                    System.out.printf("%sNew from Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", fromAccountNewBalance, RESET);
+
+                    Double toAccountNewBalance = Double.valueOf(toAccountAmount) + (transferAmount);
+                    System.out.printf("%sNew to Account Balance: %s%,.2f%s\n", COLOR_GREEN_BOLD, "Rs. ", toAccountNewBalance, RESET);
+
+                    for (int i = 0; i < accountDetails.length; i++) {
+                        if(accountDetails[i][0].equals(fromAccountID)){
+                            accountDetails[i][2] = fromAccountNewBalance + "";
+                        }
+                        if(accountDetails[i][0].equals(toAccountID)){
+                            accountDetails[i][2] = toAccountNewBalance + "";
+                        }
+                        
+                    }
+                    System.out.print("Do you want to continue transfering (Y/n)?");
+                    if(scanner.nextLine().toUpperCase().strip().equals("Y")) continue;
+                    else screen = DASHBOARD;
+                    break;
+
+                }
+
+                default:
+                    System.exit(0);
             }
         }while (true); 
     }
